@@ -62,16 +62,9 @@ lexer = Tok.makeTokenParser (emptyDef {
   Tok.commentLine = "//"
 })
 
-integer = Tok.natural lexer 
-
 whitespace = Tok.whiteSpace lexer 
-
-brackets = Tok.brackets lexer 
-parens = Tok.parens lexer 
-
-comma = Tok.comma lexer 
-commaSep1 = Tok.commaSep1 lexer 
-
 reserved = Tok.reserved lexer 
 reservedOp = Tok.reservedOp lexer 
+
 identifier = Tok.identifier lexer 
+integer = Tok.natural lexer 
