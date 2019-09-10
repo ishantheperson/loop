@@ -12,10 +12,7 @@ import qualified Text.ParserCombinators.Parsec.Token as Tok
 --   and the associated function code 
 parseString :: String -> Either ParseError Program 
 parseString = parse file "" . map toLower 
-  where file = do whitespace
-                  f <- program  
-
-                  return f 
+  where file = whitespace *> program 
 
 type Program = [Statement]
 data Statement = Increment String
@@ -52,13 +49,14 @@ statement = assign <|> increment <|> doBlock
         
           return $ Do numTimes body 
 
+expression :: Parser Expression 
 expression =   Variable <$> identifier 
            <|> Constant <$> integer 
 
 lexer = Tok.makeTokenParser (emptyDef {
   Tok.reservedNames = ["do", "od"],
   Tok.identStart = letter,
-  Tok.identLetter = alphaNum <|> char '\'' <|> char '_',
+  Tok.identLetter = alphaNum <|> oneOf "'_",
   Tok.commentLine = "//"
 })
 

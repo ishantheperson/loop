@@ -3,6 +3,11 @@ module Main where
 import Parser
 import Eval 
 
+import Data.Map (toList)
+import Data.Foldable (for_)
+
+import Text.Printf 
+
 import System.Environment (getArgs)
 
 main :: IO () 
@@ -13,6 +18,7 @@ main = do
             then getContents 
             else concat <$> mapM readFile args 
 
-  putStrLn $ case parseString text of 
-               Right p -> show $ run p 
-               Left err -> show err 
+  case parseString text of 
+    Right p -> for_ (toList $ run p) $ \(var, val) -> 
+                 printf "%s -> %d\n" var val 
+    Left err -> print err 

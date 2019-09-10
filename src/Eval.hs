@@ -12,7 +12,7 @@ import Data.Foldable (for_)
 type EvalState = Map.Map String Integer 
 
 run :: Program -> EvalState 
-run p = snd $ runState (traverse evalS p) Map.empty 
+run p = execState (traverse evalS p) Map.empty 
 
 evalS :: Statement -> State EvalState ()
 evalS = \case 
